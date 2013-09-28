@@ -43,7 +43,7 @@ CCScene* Level2::scene()
 	CCNodeLoaderLibrary *lib = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
 	lib->registerCCNodeLoader("Level2", Level2LayerLoader::loader());
 	CCBReader *reader = new CCBReader(lib);
-	CCNode* node = reader->readNodeGraphFromFile("Level2.ccbi", scene);
+	CCNode* node = reader->readNodeGraphFromFile("Level21.ccbi", scene);
 	reader->release(); //注意手动释放内存
 	if (node!=NULL)
 	{
@@ -86,23 +86,23 @@ void Level2::initWorld()
 	this->world->SetAllowSleeping(doSleep);
 	this->world->SetContinuousPhysics(true);
 
-	b2BodyDef groundBodyDef;  
-	groundBodyDef.position.Set(0,0);  
-	groundBody = world->CreateBody(&groundBodyDef);  
-	b2EdgeShape groundBox;
-	// b2PolygonShape groundBox;  
-	b2FixtureDef boxShapeDef;  
-	boxShapeDef.shape = &groundBox;  
-	groundBox.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));  
-	groundBody->CreateFixture(&boxShapeDef);  
-	groundBox.Set(b2Vec2(0,0), b2Vec2(0, size.height/PTM_RATIO));  
-	groundBody->CreateFixture(&boxShapeDef);  
-	groundBox.Set(b2Vec2(0, size.height/PTM_RATIO),   
-		b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));  
-	groundBody->CreateFixture(&boxShapeDef);  
-	groundBox.Set(b2Vec2(size.width/PTM_RATIO,   
-		size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, 0));  
-	groundBody->CreateFixture(&boxShapeDef); 
+	//b2BodyDef groundBodyDef;  
+	//groundBodyDef.position.Set(0,0);  
+	//groundBody = world->CreateBody(&groundBodyDef);  
+	//b2EdgeShape groundBox;
+	//// b2PolygonShape groundBox;  
+	//b2FixtureDef boxShapeDef;  
+	//boxShapeDef.shape = &groundBox;  
+	//groundBox.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));  
+	//groundBody->CreateFixture(&boxShapeDef);  
+	//groundBox.Set(b2Vec2(0,0), b2Vec2(0, size.height/PTM_RATIO));  
+	//groundBody->CreateFixture(&boxShapeDef);  
+	//groundBox.Set(b2Vec2(0, size.height/PTM_RATIO),   
+	//	b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));  
+	//groundBody->CreateFixture(&boxShapeDef);  
+	//groundBox.Set(b2Vec2(size.width/PTM_RATIO,   
+	//	size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, 0));  
+	//groundBody->CreateFixture(&boxShapeDef); 
 
 
 }
@@ -178,29 +178,41 @@ void Level2::createDynamicBody(b2Body* body,CCSprite*sprite,float x,float y,b2Ve
 	birdBody->CreateFixture(&ballShapeDef);
 	birdBody->ApplyForce(vec,birdBody->GetWorldCenter());
 }
-void Level2::draw()
-{
-	////CCLayer::draw();
-	//ccGLEnableVertexAttribs(kCCVertexAttribFlag_Position);
-	//kmGLPushMatrix();
-	//glLineWidth(3.0f);
-	//world->DrawDebugData();
-	//kmGLPopMatrix();
-	//if(canFly==1)
-	//{
-	//	CCLog("draw");
-	//	glLineWidth(4.0f);
-	//	ccDrawColor4B(0,255,255,255);
-	//	ccDrawLine( ccpAdd(birdCenter,ccp(bird->getContentSize().width/3,0)), bird->getPosition() );
-	//	ccDrawLine( ccpAdd(birdCenter,ccp(-bird->getContentSize().width/3,0)), bird->getPosition() );
-	//}
-}
 void Level2::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 {
 	if(i==0)
 	{
 		initBody();
 		i=1;
+	}
+	CCTouch *touch=(CCTouch*)pTouches->anyObject();
+	CCPoint pt1=touch->getLocationInView();
+	pt1=CCDirector::sharedDirector()->convertToGL(pt1);
+	if(bird->boundingBox().containsPoint(pt1))
+	{
+		canFly = 1;
+		float distance = ccpDistance(pt1,birdCenter);
+		float height = bird->boundingBox().size.height;
+		if(distance<height)
+		{
+			bird->setPosition(pt1);
+			if(turn==1)
+			{
+				layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+			}
+		}
+		else
+		{
+			float x = height/distance*(pt1.x-birdCenter.x)+birdCenter.x;
+			float y = height/distance*(pt1.y-birdCenter.y)+birdCenter.y;
+			bird->setPosition(ccp(x,y));
+			layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+		}
+	}
+	else
+	{
+		canFly =0;
+		return;
 	}
 	birdCenter = bird->getPosition();
 }
@@ -213,7 +225,24 @@ void Level2::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 	if(bird->boundingBox().containsPoint(pt1))
 	{
 		canFly = 1;
-		bird->setPosition(pt1);
+		float distance = ccpDistance(pt1,birdCenter);
+		float height = bird->boundingBox().size.height;
+		if(distance<height)
+		{
+			bird->setPosition(pt1);
+			if(turn==1)
+			{
+				layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+			}
+		}
+		else
+		{
+			CCLog("else");
+			float x = height/distance*(pt1.x-birdCenter.x)+birdCenter.x;
+			float y = height/distance*(pt1.y-birdCenter.y)+birdCenter.y;
+			bird->setPosition(ccp(x,y));
+			layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+		}
 	}
 	else
 	{

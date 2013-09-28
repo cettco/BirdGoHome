@@ -34,7 +34,7 @@ CCScene* Level5::scene()
 	CCNodeLoaderLibrary *lib = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
 	lib->registerCCNodeLoader("Level5", Level5LayerLoader::loader());
 	CCBReader *reader = new CCBReader(lib);
-	CCNode* node = reader->readNodeGraphFromFile("Level5.ccbi", scene);
+	CCNode* node = reader->readNodeGraphFromFile("Level51.ccbi", scene);
 	reader->release(); //注意手动释放内存
 	if (node!=NULL)
 	{
@@ -240,7 +240,23 @@ void Level5::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 	if(bird->boundingBox().containsPoint(pt1))
 	{
 		canFly = 1;
-		bird->setPosition(pt1);
+		float distance = ccpDistance(pt1,birdCenter);
+		float height = bird->boundingBox().size.height;
+		if(distance<height)
+		{
+			bird->setPosition(pt1);
+			if(turn==1)
+			{
+				layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+			}
+		}
+		else
+		{
+			float x = height/distance*(pt1.x-birdCenter.x)+birdCenter.x;
+			float y = height/distance*(pt1.y-birdCenter.y)+birdCenter.y;
+			bird->setPosition(ccp(x,y));
+			layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+		}
 	}
 	else
 	{

@@ -158,12 +158,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Level1.ccbi" />
+    <None Include="..\Resources\Level11.ccbi" />
     <None Include="..\Resources\Level2.ccbi" />
+    <None Include="..\Resources\Level21.ccbi" />
     <None Include="..\Resources\Level3.ccbi" />
+    <None Include="..\Resources\Level31.ccbi" />
     <None Include="..\Resources\Level4.ccbi" />
+    <None Include="..\Resources\Level41.ccbi" />
     <None Include="..\Resources\Level5.ccbi" />
+    <None Include="..\Resources\Level51.ccbi" />
     <None Include="..\Resources\Levels.ccbi" />
+    <None Include="..\Resources\Levels1.ccbi" />
     <None Include="..\Resources\Main.ccbi" />
+    <None Include="..\Resources\Main1.ccbi" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

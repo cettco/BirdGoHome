@@ -43,6 +43,7 @@ public:
 		i=0;
 		turn = 1;
 		time = 15;
+		canFly = 0;
 	}
 	CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(Level3,create);
 	virtual bool onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode);

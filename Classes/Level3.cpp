@@ -34,7 +34,7 @@ CCScene* Level3::scene()
 	CCNodeLoaderLibrary *lib = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
 	lib->registerCCNodeLoader("Level3", Level3LayerLoader::loader());
 	CCBReader *reader = new CCBReader(lib);
-	CCNode* node = reader->readNodeGraphFromFile("Level3.ccbi", scene);
+	CCNode* node = reader->readNodeGraphFromFile("Level31.ccbi", scene);
 	reader->release(); //注意手动释放内存
 	if (node!=NULL)
 	{
@@ -77,23 +77,23 @@ void Level3::initWorld()
 	this->world->SetAllowSleeping(doSleep);
 	this->world->SetContinuousPhysics(true);
 
-	//b2BodyDef groundBodyDef;  
-	//groundBodyDef.position.Set(0,0);  
-	//groundBody = world->CreateBody(&groundBodyDef);  
-	//b2EdgeShape groundBox;
-	//// b2PolygonShape groundBox;  
-	//b2FixtureDef boxShapeDef;  
-	//boxShapeDef.shape = &groundBox;  
-	//groundBox.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(0,0), b2Vec2(0, size.height/PTM_RATIO));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(0, size.height/PTM_RATIO),   
-	//	b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(size.width/PTM_RATIO,   
-	//	size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, 0));  
-	//groundBody->CreateFixture(&boxShapeDef); 
+	b2BodyDef groundBodyDef;  
+	groundBodyDef.position.Set(0,0);  
+	groundBody = world->CreateBody(&groundBodyDef);  
+	b2EdgeShape groundBox;
+	// b2PolygonShape groundBox;  
+	b2FixtureDef boxShapeDef;  
+	boxShapeDef.shape = &groundBox;  
+	groundBox.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));  
+	groundBody->CreateFixture(&boxShapeDef);  
+	groundBox.Set(b2Vec2(0,0), b2Vec2(0, size.height/PTM_RATIO));  
+	groundBody->CreateFixture(&boxShapeDef);  
+	groundBox.Set(b2Vec2(0, size.height/PTM_RATIO),   
+		b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));  
+	groundBody->CreateFixture(&boxShapeDef);  
+	groundBox.Set(b2Vec2(size.width/PTM_RATIO,   
+		size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, 0));  
+	groundBody->CreateFixture(&boxShapeDef); 
 
 
 }
@@ -101,9 +101,14 @@ void Level3::initBody()
 {
 	createStaticBody(obstacle1,obstacle1->getPosition().x,obstacle1->getPosition().y);
 	createStaticBody(obstacle2,obstacle2->getPosition().x,obstacle2->getPosition().y);
+	createStaticBody(obstacle3,obstacle3->getPosition().x,obstacle3->getPosition().y);
+	createStaticBody(obstacle4,obstacle4->getPosition().x,obstacle4->getPosition().y);
+	createStaticBody(obstacle5,obstacle5->getPosition().x,obstacle5->getPosition().y);
+	createStaticBody(obstacle6,obstacle6->getPosition().x,obstacle6->getPosition().y);
 	rotate1Body = createMoveStaticBody(rotate1,rotate1->getPosition().x,rotate1->getPosition().y);
-	rotate2Body = createMoveStaticBody(rotate2,rotate2->getPosition().x,rotate1->getPosition().y);
-	rotate2Body->SetTransform(b2Vec2(rotate2->getPosition().x/PTM_RATIO,rotate2->getPosition().y/PTM_RATIO),20/PTM_RATIO);
+	rotate2Body = createMoveStaticBody(rotate2,rotate2->getPosition().x,rotate2->getPosition().y);
+	rotate1Body->SetTransform(b2Vec2(rotate1->getPosition().x/PTM_RATIO,rotate1->getPosition().y/PTM_RATIO),-40/PTM_RATIO);
+	rotate2Body->SetTransform(b2Vec2(rotate2->getPosition().x/PTM_RATIO,rotate2->getPosition().y/PTM_RATIO),-20/PTM_RATIO);
 }
 void Level3::createStaticBody(CCSprite*sprite,float x,float y)
 {
@@ -137,8 +142,9 @@ b2Body* Level3::createMoveStaticBody(CCSprite*sprite,float x,float y)
 	b2FixtureDef boxDef;
 	b2PolygonShape box; 
 	boxDef.shape = &box;
-	CCPoint spritePosition = sprite->getPosition();
-	box.SetAsBox(sprite->getContentSize().width/2/PTM_RATIO,sprite->getContentSize().height/2/PTM_RATIO);
+	//b2Vec2 vec = b2Vec2(sprite->getPosition().x/PTM_RATIO,sprite->getPosition().y+sprite->getContentSize().height);
+	//b2Vec2 vec = b2Vec2(0,0);
+	box.SetAsBox(sprite->getContentSize().width/2/PTM_RATIO,sprite->getContentSize().height/PTM_RATIO);
 	body->CreateFixture(&box,0.5f);
 	return body;
 }
@@ -171,6 +177,7 @@ void Level3::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 		initBody();
 		i=1;
 	}
+	birdCenter = bird->getPosition();
 	CCTouch *touch=(CCTouch*)pTouches->anyObject();
 	CCPoint pt1=touch->getLocationInView();
 	pt1=CCDirector::sharedDirector()->convertToGL(pt1);
@@ -181,21 +188,8 @@ void Level3::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 	else
 	{
 		canFly = 0;
+		return;
 	}
-	/*birdCenter = bird->getPosition();
-	CCTouch *touch=(CCTouch*)pTouches->anyObject();
-	CCPoint pt1=touch->getLocationInView();
-	pt1=CCDirector::sharedDirector()->convertToGL(pt1);
-	if(bomb1->boundingBox().containsPoint(pt1))
-	{
-	CCLog("in1");
-	rotate1Body->SetTransform(b2Vec2(rotate1->getPosition().x/PTM_RATIO,rotate1->getPosition().y/PTM_RATIO),90/PTM_RATIO);
-	}
-	if(bomb2->boundingBox().containsPoint(pt1))
-	{
-	CCLog("in2");
-	rotate1Body->SetTransform(b2Vec2(rotate2->getPosition().x/PTM_RATIO,rotate2->getPosition().y/PTM_RATIO),90/PTM_RATIO);
-	}*/
 }
 void Level3::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 {
@@ -206,15 +200,27 @@ void Level3::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 	if(bird->boundingBox().containsPoint(pt1))
 	{
 		canFly = 1;
-		bird->setPosition(pt1);
+		float distance = ccpDistance(pt1,birdCenter);
+		float height = bird->boundingBox().size.height;
+		if(distance<height)
+		{
+			bird->setPosition(pt1);
+			if(turn==1)
+			{
+				layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+			}
+		}
+		else
+		{
+			float x = height/distance*(pt1.x-birdCenter.x)+birdCenter.x;
+			float y = height/distance*(pt1.y-birdCenter.y)+birdCenter.y;
+			bird->setPosition(ccp(x,y));
+			layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+		}
 	}
 	else
 	{
 		return;
-	}
-	if(turn==1)
-	{
-		layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
 	}
 }
 void Level3::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
@@ -224,21 +230,22 @@ void Level3::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 	pt1=CCDirector::sharedDirector()->convertToGL(pt1);
 	if(bomb2->boundingBox().containsPoint(pt1))
 	{
-		CCLog("in1");
 		this->removeChild(bomb2);
-		rotate2Body->SetTransform(b2Vec2(rotate2->getPosition().x/PTM_RATIO,rotate2->getPosition().y/PTM_RATIO),90/PTM_RATIO);
+		//bomb2=NULL;
+		rotate2Body->SetTransform(b2Vec2((rotate2->getPosition().x)/PTM_RATIO,(rotate2->getPosition().y)/PTM_RATIO),45/PTM_RATIO);
 	}
 	if(bomb1->boundingBox().containsPoint(pt1))
 	{
-		CCLog("in2");
 		this->removeChild(bomb1);
-		rotate1Body->SetTransform(b2Vec2(rotate1->getPosition().x/PTM_RATIO,rotate1->getPosition().y/PTM_RATIO),45/PTM_RATIO);
+		//bomb1=NULL;
+		rotate1Body->SetTransform(b2Vec2((rotate1->getPosition().x)/PTM_RATIO,(rotate1->getPosition().y)/PTM_RATIO),0/PTM_RATIO);
+
 	}
 	if(canFly==0)
 	{
 		return;
 	}
-	else
+	else if(canFly==1)
 	{
 		canFly =0;
 	}
@@ -247,15 +254,11 @@ void Level3::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 	float y = pt1.y;
 	float distance = ccpDistance(pt1,birdCenter);
 	float cos=(pt1.x-birdCenter.x)/distance,sin=(pt1.y-birdCenter.y)/distance;
-	createDynamicBody(birdBody,bird,x/PTM_RATIO,y/PTM_RATIO,b2Vec2(-3.0f*distance*cos,-3.0f*distance*sin));
+	createDynamicBody(birdBody,bird,x/PTM_RATIO,y/PTM_RATIO,b2Vec2(-5.0f*distance*cos,-5.0f*distance*sin));
 	if(turn==1)
 	{
 		layer->createWithPoints(s1l->getPosition(),s1l->getPosition(),s1r->getPosition());
 	}
-	//if(turn==2)
-	//{
-	//	layer->createWithPoints(s2l->getPosition(),s2l->getPosition(),s2r->getPosition());
-	//}
 }
 void Level3::update(float dt)
 {
@@ -344,22 +347,6 @@ void Level3::update(float dt)
 		}
 	}
 }
-//void Level3::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
-//{
-//	CCLog("touch");
-//	CCTouch * touch = (CCTouch*)(pTouches->anyObject());
-//	CCPoint location = touch->getLocationInView();
-//	location = CCDirector::sharedDirector()->convertToGL(location);
-//	this->label->setPosition(ccp(location.x,location.y));
-//	/*ccBezierConfig bezier;
-//	bezier.controlPoint_1 = ccp(0,0);
-//	bezier.controlPoint_2 = ccp(location.x,location.y);
-//	bezier.endPosition = ccp(400,50);*/
-//	/*glLineWidth(5.0f);
-//	glColor4f(1.0,0.0,0.0,1.0);
-//	ccDrawLine(ccp(0,0),ccp(location.x,location.y));*/
-//	//this->label->setPosition(ccp(location.x,location.y));
-//}
 SEL_MenuHandler Level3::onResolveCCBCCMenuItemSelector(CCObject * pTarget,const char * pSelectorName){
 
 	//Bind Menu Events，绑定一个menu，点击方法是press，以下同理
@@ -382,7 +369,6 @@ bool Level3::onAssignCCBMemberVariable(cocos2d::CCObject *pTarget, const char *p
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"bird",CCSprite*,this->bird);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"home",CCSprite*,this->home);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"shooter1",CCSprite*,this->shooter1);
-	//CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"shooter2",CCSprite*,this->shooter2);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"obstacle1",CCSprite*,this->obstacle1);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"obstacle2",CCSprite*,this->obstacle2);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"obstacle3",CCSprite*,this->obstacle3);
@@ -395,8 +381,6 @@ bool Level3::onAssignCCBMemberVariable(cocos2d::CCObject *pTarget, const char *p
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"bomb2",CCSprite*,this->bomb2);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"s1l",CCSprite*,this->s1l);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"s1r",CCSprite*,this->s1r);
-	//CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"s2l",CCSprite*,this->s2l);
-	//CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"s2r",CCSprite*,this->s2r);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"timeLabel",CCLabelTTF*,this->timeLabel);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star1",CCSprite*,this->star1);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star2",CCSprite*,this->star2);

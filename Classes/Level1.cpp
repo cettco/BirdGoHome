@@ -25,41 +25,7 @@ void Level1::pressed(cocos2d::CCObject* pSender)
 	case 3:
 		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Level2::scene(),false));
 		break;
-		/*case 0:
-		CCScene *pscene = GameMenu::scene();
-		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,pscene));
-		break;
-		case 1:
-		CCScene *pscene = HelloWorld::scene();
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
-		break;
-		case 2:
-		CCScene *pscene = HelloWorld::scene();
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
-		break;
-		case 3:
-		CCScene *pscene = HelloWorld::scene();
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
-		break;
-		case 4:
-		CCScene *pscene = HelloWorld::scene();
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
-		break;
-		case 5:
-		CCScene *pscene = HelloWorld::scene();
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
-		break;
-		case 6:
-		CCScene *pscene = HelloWorld::scene();
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
-		break;*/
 	}
-	/*if(menu->getTag()==1)
-	{
-	CCScene *pscene = HelloWorld::scene();
-	CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
-	}*/
-	//this->i++;
 }
 CCScene* Level1::scene()
 {
@@ -68,7 +34,7 @@ CCScene* Level1::scene()
 	CCNodeLoaderLibrary *lib = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
 	lib->registerCCNodeLoader("Level1", Level1LayerLoader::loader());
 	CCBReader *reader = new CCBReader(lib);
-	CCNode* node = reader->readNodeGraphFromFile("Level1.ccbi", scene);
+	CCNode* node = reader->readNodeGraphFromFile("Level11.ccbi", scene);
 	reader->release(); //注意手动释放内存
 	if (node!=NULL)
 	{
@@ -110,25 +76,6 @@ void Level1::initWorld()
 	bool doSleep = true;
 	this->world->SetAllowSleeping(doSleep);
 	this->world->SetContinuousPhysics(true);
-
-	//b2BodyDef groundBodyDef;  
-	//groundBodyDef.position.Set(0,0);  
-	//groundBody = world->CreateBody(&groundBodyDef);  
-	//b2EdgeShape groundBox;
-	//// b2PolygonShape groundBox;  
-	//b2FixtureDef boxShapeDef;  
-	//boxShapeDef.shape = &groundBox;  
-	//groundBox.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(0,0), b2Vec2(0, size.height/PTM_RATIO));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(0, size.height/PTM_RATIO),   
-	//	b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(size.width/PTM_RATIO,   
-	//	size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, 0));  
-	//groundBody->CreateFixture(&boxShapeDef); 
-
 
 }
 void Level1::initBody()
@@ -177,23 +124,6 @@ void Level1::createDynamicBody(b2Body* body,CCSprite*sprite,float x,float y,b2Ve
 	birdBody->CreateFixture(&ballShapeDef);
 	birdBody->ApplyForce(vec,birdBody->GetWorldCenter());
 }
-void Level1::draw()
-{
-	////CCLayer::draw();
-	//ccGLEnableVertexAttribs(kCCVertexAttribFlag_Position);
-	//kmGLPushMatrix();
-	//glLineWidth(3.0f);
-	//world->DrawDebugData();
-	//kmGLPopMatrix();
-	//if(canFly==1)
-	//{
-	//	CCLog("draw");
-	//	glLineWidth(4.0f);
-	//	ccDrawColor4B(0,255,255,255);
-	//	ccDrawLine( ccpAdd(birdCenter,ccp(bird->getContentSize().width/3,0)), bird->getPosition() );
-	//	ccDrawLine( ccpAdd(birdCenter,ccp(-bird->getContentSize().width/3,0)), bird->getPosition() );
-	//}
-}
 void Level1::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 {
 	if(i==0)
@@ -202,6 +132,20 @@ void Level1::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 		i=1;
 	}
 	birdCenter = bird->getPosition();
+	CCTouch *touch=(CCTouch*)pTouches->anyObject();
+	CCPoint pt1=touch->getLocationInView();
+	pt1=CCDirector::sharedDirector()->convertToGL(pt1);
+	if(bird->boundingBox().containsPoint(pt1))
+	{
+		CCLog("can");
+		canFly = 1;
+		//bird->setPosition(pt1);
+	}
+	else{
+		CCLog("not");
+		canFly = 0;
+		return;
+	}
 }
 void Level1::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 {
@@ -212,7 +156,24 @@ void Level1::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 	if(bird->boundingBox().containsPoint(pt1))
 	{
 		canFly = 1;
-		bird->setPosition(pt1);
+		float distance = ccpDistance(pt1,birdCenter);
+		float height = bird->boundingBox().size.height;
+		if(distance<height)
+		{
+			bird->setPosition(pt1);
+			if(turn==1)
+			{
+				layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+			}
+		}
+		else
+		{
+			CCLog("else");
+			float x = height/distance*(pt1.x-birdCenter.x)+birdCenter.x;
+			float y = height/distance*(pt1.y-birdCenter.y)+birdCenter.y;
+			bird->setPosition(ccp(x,y));
+			layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
+		}
 	}
 	else
 	{

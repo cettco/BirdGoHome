@@ -137,5 +137,26 @@
     <None Include="..\Resources\Level5.ccbi">
       <Filter>resource</Filter>
     </None>
+    <None Include="..\Resources\Main1.ccbi">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\Level11.ccbi">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\Level31.ccbi">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\Level21.ccbi">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\Level41.ccbi">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\Level51.ccbi">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="..\Resources\Levels1.ccbi">
+      <Filter>resource</Filter>
+    </None>
   </ItemGroup>
 </Project>

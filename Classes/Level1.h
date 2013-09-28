@@ -49,7 +49,6 @@ public:
 	virtual void ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent);
 	virtual void ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent);
 	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
-	virtual void draw();
 	void update(float dt);
 	void initBody();
 	void setMTime(float dt);

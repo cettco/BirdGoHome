@@ -32,7 +32,7 @@ CCScene* MainLayer::scene()
 	CCLog("scene2");
 	CCBReader *reader = new CCBReader(lib);
 	CCLog("scene3");
-	CCNode *node = reader->readNodeGraphFromFile("Main.ccbi", scene);
+	CCNode *node = reader->readNodeGraphFromFile("Main1.ccbi", scene);
 	CCLog("scene4");
 	reader->release(); //注意手动释放内存
 	if (node!=NULL)
