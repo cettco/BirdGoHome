@@ -22,7 +22,7 @@ CCScene* GameMenu::scene()
 	CCNodeLoaderLibrary *lib = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
 	lib->registerCCNodeLoader("Main", MainLayerLoader::loader());
 	CCBReader *reader = new CCBReader(lib);
-	CCNode *node = reader->readNodeGraphFromFile("Main.ccbi", scene);
+	CCNode *node = reader->readNodeGraphFromFile("Main1.ccbi", scene);
 	reader->release(); //注意手动释放内存
 	//CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Arial", 24);
 	//pLabel->setString
