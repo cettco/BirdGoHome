@@ -101,6 +101,7 @@ bool Levels::init()
 		setTouchEnabled(true);
 
 		CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("back.mp3",true);
 		//[self addChild:_ball];
 
 		// Create a world

@@ -6,6 +6,7 @@
 #include "cocos-ext.h"
 #include "SimpleAudioEngine.h"
 #include "LineLayer.h"
+using namespace CocosDenshion;
 using namespace cocos2d;
 using namespace cocos2d::extension;
 class Level2 : public cocos2d::CCLayer

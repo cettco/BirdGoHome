@@ -54,6 +54,7 @@ bool Level1::init()
 		this->size = CCDirector::sharedDirector()->getWinSize();
 		initWorld();
 		this->addChild(layer,10);
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("back.mp3",true);
 		schedule(schedule_selector(Level1::setMTime),1.0f);
 		scheduleUpdate();
 		bRet = true;

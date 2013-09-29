@@ -7,6 +7,7 @@
 #include "SimpleAudioEngine.h"
 using namespace cocos2d;
 using namespace cocos2d::extension;
+using namespace CocosDenshion;
 class GameMenu : public cocos2d::CCLayer
 	,public cocos2d::extension::CCBSelectorResolver
 	,public cocos2d::extension::CCBMemberVariableAssigner

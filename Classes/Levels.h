@@ -6,6 +6,7 @@
 #include "cocos-ext.h"
 #include "SimpleAudioEngine.h"
 using namespace cocos2d;
+using namespace CocosDenshion;
 using namespace cocos2d::extension;
 class Levels : public cocos2d::CCLayer
 	,public cocos2d::extension::CCBSelectorResolver

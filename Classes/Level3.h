@@ -7,6 +7,7 @@
 #include "SimpleAudioEngine.h"
 #include "LineLayer.h"
 using namespace cocos2d;
+using namespace CocosDenshion;
 using namespace cocos2d::extension;
 class Level3 : public cocos2d::CCLayer
 	,public cocos2d::extension::CCBSelectorResolver
