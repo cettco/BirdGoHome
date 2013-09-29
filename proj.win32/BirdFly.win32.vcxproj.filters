@@ -30,6 +30,9 @@
     <Image Include="..\Resources\bird.png">
       <Filter>resource</Filter>
     </Image>
+    <Image Include="..\Resources\back.png">
+      <Filter>resource</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BirdFly.rc">
@@ -76,6 +79,9 @@
     <ClInclude Include="..\Classes\Level5.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\About.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -112,6 +118,9 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Level5.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\About.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -158,5 +167,16 @@
     <None Include="..\Resources\Levels1.ccbi">
       <Filter>resource</Filter>
     </None>
+    <None Include="..\Resources\About.ccbi">
+      <Filter>resource</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Resources\back.mp3">
+      <Filter>resource</Filter>
+    </Media>
+    <Media Include="..\Resources\cannon.wav">
+      <Filter>resource</Filter>
+    </Media>
   </ItemGroup>
 </Project>

@@ -9,8 +9,9 @@ void Level1::pressed(cocos2d::CCObject* pSender)
 	CCMenuItemImage *menu = (CCMenuItemImage*)pSender;
 	switch (menu->getTag())
 	{
-	case -2:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionRotoZoom::create(1,Level1::scene()));
+		CCLog("tag %d",menu->getTag());
+	case 10:
+		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Level1::scene(),false));
 	case -1:
 		initBody();
 	case 0:
@@ -242,6 +243,11 @@ void Level1::update(float dt)
 		this->unschedule(schedule_selector(Level1::setMTime));
 		CCNode*node= this->getParent()->getChildByTag(1);
 		CCBAnimationManager*animationManager = (CCBAnimationManager*)node->getUserObject();
+		if(endLayer==NULL)
+		{
+			CCLog("null");
+		}
+		endLayer->setVisible(true);
 		animationManager->runAnimationsForSequenceNamed("over");
 		star1->setVisible(false);
 		star2->setVisible(false);
@@ -279,6 +285,7 @@ void Level1::update(float dt)
 			bird->setVisible(false);
 			CCNode*node= this->getParent()->getChildByTag(1);
 			CCBAnimationManager*animationManager = (CCBAnimationManager*)node->getUserObject();
+			endLayer->setVisible(true);
 			animationManager->runAnimationsForSequenceNamed("over");
 			this->unschedule(schedule_selector(Level1::setMTime));
 			if(time>=10)
@@ -357,6 +364,7 @@ bool Level1::onAssignCCBMemberVariable(cocos2d::CCObject *pTarget, const char *p
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star1",CCSprite*,this->star1);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star2",CCSprite*,this->star2);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star3",CCSprite*,this->star3);
+	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"EndLayer",CCLayer*,this->endLayer);
 	return true;
 }
 

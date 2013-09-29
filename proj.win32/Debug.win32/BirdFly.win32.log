@@ -1,10 +1,11 @@
-﻿Build started 9/29/2013 10:56:25 AM.
+﻿Build started 9/29/2013 9:09:45 PM.
      1>Project "D:\Workspace\cocos2d-2.1rc0-x-2.1.3\BirdFly\proj.win32\BirdFly.win32.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Programs\Develope\vs2012\VC\bin\CL.exe /c /I. /I..\Classes /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\include" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\kazmath\include" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\platform\win32" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\platform\third_party\win32" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\platform\third_party\win32\OGLES" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\external" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\CocosDenshion\include" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\extensions" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D STRICT /D _CRT_SECURE_NO_WARNINGS /D _SCL_SECURE_NO_WARNINGS_DEBUG /D COCOS2D_DEBUG=1 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug.win32\\" /Fd"Debug.win32\vc110.pdb" /Gd /TP /wd4267 /wd4251 /wd4244 /analyze- /errorReport:prompt ..\Classes\GameMenu.cpp
-         GameMenu.cpp
+         D:\Programs\Develope\vs2012\VC\bin\CL.exe /c /I. /I..\Classes /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\include" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\kazmath\include" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\platform\win32" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\platform\third_party\win32" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\cocos2dx\platform\third_party\win32\OGLES" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\external" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\CocosDenshion\include" /I"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\extensions" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D STRICT /D _CRT_SECURE_NO_WARNINGS /D _SCL_SECURE_NO_WARNINGS_DEBUG /D COCOS2D_DEBUG=1 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug.win32\\" /Fd"Debug.win32\vc110.pdb" /Gd /TP /wd4267 /wd4251 /wd4244 /analyze- /errorReport:prompt ..\Classes\About.cpp
+         About.cpp
        Link:
          D:\Programs\Develope\vs2012\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\Debug.win32\BirdFly.win32.exe" /INCREMENTAL /NOLOGO /LIBPATH:"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\Debug.win32\\" libcocos2d.lib opengl32.lib glew32.lib libBox2d.lib libCocosDenshion.lib libExtensions.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\Debug.win32\BirdFly.win32.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Workspace\cocos2d-2.1rc0-x-2.1.3\Debug.win32\BirdFly.win32.lib" /MACHINE:X86 Debug.win32\BirdFly.res
+         Debug.win32\About.obj
          Debug.win32\AppDelegate.obj
          Debug.win32\GameMenu.obj
          Debug.win32\Level1.obj
@@ -22,4 +23,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.73
+Time Elapsed 00:00:03.81

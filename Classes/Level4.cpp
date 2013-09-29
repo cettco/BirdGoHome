@@ -275,6 +275,7 @@ void Level4::update(float dt)
 		this->unschedule(schedule_selector(Level4::setMTime));
 		CCNode*node= this->getParent()->getChildByTag(1);
 		CCBAnimationManager*animationManager = (CCBAnimationManager*)node->getUserObject();
+		endLayer->setVisible(true);
 		animationManager->runAnimationsForSequenceNamed("over");
 		star1->setVisible(false);
 		star2->setVisible(false);
@@ -312,6 +313,7 @@ void Level4::update(float dt)
 			bird->setVisible(false);
 			CCNode*node= this->getParent()->getChildByTag(1);
 			CCBAnimationManager*animationManager = (CCBAnimationManager*)node->getUserObject();
+			endLayer->setVisible(true);
 			animationManager->runAnimationsForSequenceNamed("over");
 			this->unschedule(schedule_selector(Level4::setMTime));
 			if(time>=10)
@@ -390,6 +392,7 @@ bool Level4::onAssignCCBMemberVariable(cocos2d::CCObject *pTarget, const char *p
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star1",CCSprite*,this->star1);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star2",CCSprite*,this->star2);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star3",CCSprite*,this->star3);
+	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"endlayer",CCLayer*,this->endLayer);
 	return true;
 }
 

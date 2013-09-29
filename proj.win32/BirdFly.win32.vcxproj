@@ -118,6 +118,7 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Image Include="..\Resources\back.png" />
     <Image Include="..\Resources\bird.png" />
     <Image Include="..\Resources\CloseNormal.png" />
     <Image Include="..\Resources\CloseSelected.png" />
@@ -128,6 +129,7 @@
     <ResourceCompile Include="BirdFly.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Classes\About.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\GameMenu.h" />
     <ClInclude Include="..\Classes\Level1.h" />
@@ -143,6 +145,7 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Classes\About.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\GameMenu.cpp" />
     <ClCompile Include="..\Classes\Level1.cpp" />
@@ -157,6 +160,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Resources\About.ccbi" />
     <None Include="..\Resources\Level1.ccbi" />
     <None Include="..\Resources\Level11.ccbi" />
     <None Include="..\Resources\Level2.ccbi" />
@@ -171,6 +175,10 @@
     <None Include="..\Resources\Levels1.ccbi" />
     <None Include="..\Resources\Main.ccbi" />
     <None Include="..\Resources\Main1.ccbi" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\Resources\back.mp3" />
+    <Media Include="..\Resources\cannon.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

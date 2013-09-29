@@ -1,10 +1,11 @@
 #include "GameMenu.h"
 #include "HelloWorldScene.h"
 #include "Levels.h"
+#include "About.h"
 #define PTM_RATIO 32.0
 #define playPressed 1
 #define aboutPressed 2
-#define mutePressed 3
+#define exitPressed 3
 void GameMenu::pressed(cocos2d::CCObject* pSender)
 {
 	CCMenuItemImage *menu = (CCMenuItemImage*)pSender;
@@ -12,6 +13,15 @@ void GameMenu::pressed(cocos2d::CCObject* pSender)
 	{
 		CCScene *pscene = Levels::scene();
 		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
+	}
+	if(menu->getTag()==aboutPressed)
+	{
+		CCScene *pscene = About::scene();
+		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,pscene,false));
+	}
+	if(menu->getTag()==exitPressed)
+	{
+		CCDirector::sharedDirector()->end();
 	}
 	//this->i++;
 }

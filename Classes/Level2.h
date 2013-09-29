@@ -34,6 +34,7 @@ public:
 		i=0;
 		turn = 1;
 		time = 15;
+		endLayer = NULL;
 	}
 	CCB_STATIC_NEW_AUTORELEASE_OBJECT_WITH_INIT_METHOD(Level2,create);
 	virtual bool onAssignCCBMemberVariable(CCObject* pTarget, const char* pMemberVariableName, CCNode* pNode);
@@ -65,6 +66,7 @@ protected:
 	CCSprite *star2;
 	CCSprite *star3;
 	CCLabelTTF *timeLabel;
+	CCLayer *endLayer;
 public:
 	b2World *world;
 	b2Body *groundBody;

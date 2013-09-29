@@ -55,6 +55,7 @@ bool Level3::init()
 		initWorld();
 		this->addChild(layer,10);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("back.mp3",true);
+		SimpleAudioEngine::sharedEngine()->preloadEffect("cannon.wav");
 		schedule(schedule_selector(Level3::setMTime),1.0f);
 		scheduleUpdate();
 		bRet = true;
@@ -231,12 +232,14 @@ void Level3::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 	pt1=CCDirector::sharedDirector()->convertToGL(pt1);
 	if(bomb2->boundingBox().containsPoint(pt1))
 	{
+		SimpleAudioEngine::sharedEngine()->playEffect("cannon.wav");
 		this->removeChild(bomb2);
 		//bomb2=NULL;
 		rotate2Body->SetTransform(b2Vec2((rotate2->getPosition().x)/PTM_RATIO,(rotate2->getPosition().y)/PTM_RATIO),45/PTM_RATIO);
 	}
 	if(bomb1->boundingBox().containsPoint(pt1))
 	{
+		SimpleAudioEngine::sharedEngine()->playEffect("cannon.wav");
 		this->removeChild(bomb1);
 		//bomb1=NULL;
 		rotate1Body->SetTransform(b2Vec2((rotate1->getPosition().x)/PTM_RATIO,(rotate1->getPosition().y)/PTM_RATIO),0/PTM_RATIO);
@@ -282,6 +285,11 @@ void Level3::update(float dt)
 		this->unschedule(schedule_selector(Level3::setMTime));
 		CCNode*node= this->getParent()->getChildByTag(1);
 		CCBAnimationManager*animationManager = (CCBAnimationManager*)node->getUserObject();
+		if(endLayer==NULL)
+		{
+			CCLog("null");
+		}
+		endLayer->setVisible(true);
 		animationManager->runAnimationsForSequenceNamed("over");
 		star1->setVisible(false);
 		star2->setVisible(false);
@@ -290,17 +298,6 @@ void Level3::update(float dt)
 	if(birdBody!=NULL)
 	{
 		CCSprite *birdsprite =(CCSprite*)birdBody->GetUserData();
-		//if(birdsprite->boundingBox().intersectsRect(this->shooter2->boundingBox()))
-		//{
-		//	if(turn!=2)
-		//	{
-		//		this->world->DestroyBody(birdBody);
-		//		birdBody=NULL;
-		//		bird->setPosition(s2l->getPosition());
-		//		canFly = 1;
-		//		turn = 2;
-		//	}
-		//}
 		if(birdsprite->boundingBox().intersectsRect(this->shooter1->boundingBox()))
 		{
 			if(turn!=1)
@@ -319,6 +316,7 @@ void Level3::update(float dt)
 			bird->setVisible(false);
 			CCNode*node= this->getParent()->getChildByTag(1);
 			CCBAnimationManager*animationManager = (CCBAnimationManager*)node->getUserObject();
+			endLayer->setVisible(true);
 			animationManager->runAnimationsForSequenceNamed("over");
 			this->unschedule(schedule_selector(Level3::setMTime));
 			if(time>=10)
@@ -386,6 +384,9 @@ bool Level3::onAssignCCBMemberVariable(cocos2d::CCObject *pTarget, const char *p
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star1",CCSprite*,this->star1);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star2",CCSprite*,this->star2);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star3",CCSprite*,this->star3);
+	CCLog("abc");
+	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"endlayer",CCLayer*,this->endLayer);
+	CCLog("ab");
 	return true;
 }
 
