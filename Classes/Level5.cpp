@@ -2,14 +2,13 @@
 #include "HelloWorldScene.h"
 #include "GameMenu.h"
 #include "Levels.h"
-#include "Level2.h"
 #define PTM_RATIO 32.0
 void Level5::pressed(cocos2d::CCObject* pSender)
 {
 	CCMenuItemImage *menu = (CCMenuItemImage*)pSender;
 	switch (menu->getTag())
 	{
-	case -2:
+	case 10:
 		CCDirector::sharedDirector()->replaceScene(CCTransitionRotoZoom::create(1,Level5::scene()));
 	case -1:
 		initBody();
@@ -20,7 +19,7 @@ void Level5::pressed(cocos2d::CCObject* pSender)
 		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Levels::scene(),false));
 		break;
 	case 2:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,Levels::scene()));
+		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,Level5::scene()));
 		break;
 	case 3:
 		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Level5::scene(),false));

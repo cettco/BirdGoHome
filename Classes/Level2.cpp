@@ -9,7 +9,7 @@ void Level2::pressed(cocos2d::CCObject* pSender)
 	CCMenuItemImage *menu = (CCMenuItemImage*)pSender;
 	switch (menu->getTag())
 	{
-	case -2:
+	case 10:
 		CCDirector::sharedDirector()->replaceScene(CCTransitionRotoZoom::create(1,Level2::scene()));
 	case -1:
 		initBody();
@@ -17,22 +17,13 @@ void Level2::pressed(cocos2d::CCObject* pSender)
 		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,Levels::scene()));
 		break;
 	case 1:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,HelloWorld::scene(),false));
+		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Levels::scene(),false));
 		break;
 	case 2:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,Levels::scene()));
+		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,Level2::scene()));
 		break;
 	case 3:
 		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Level3::scene(),false));
-		break;
-	case 4:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,HelloWorld::scene(),false));
-		break;
-	case 5:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,HelloWorld::scene(),false));
-		break;
-	case 6:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,HelloWorld::scene(),false));
 		break;
 	}
 }
@@ -87,24 +78,6 @@ void Level2::initWorld()
 	this->world->SetAllowSleeping(doSleep);
 	this->world->SetContinuousPhysics(true);
 
-	//b2BodyDef groundBodyDef;  
-	//groundBodyDef.position.Set(0,0);  
-	//groundBody = world->CreateBody(&groundBodyDef);  
-	//b2EdgeShape groundBox;
-	//// b2PolygonShape groundBox;  
-	//b2FixtureDef boxShapeDef;  
-	//boxShapeDef.shape = &groundBox;  
-	//groundBox.Set(b2Vec2(0,0), b2Vec2(size.width/PTM_RATIO, 0));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(0,0), b2Vec2(0, size.height/PTM_RATIO));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(0, size.height/PTM_RATIO),   
-	//	b2Vec2(size.width/PTM_RATIO, size.height/PTM_RATIO));  
-	//groundBody->CreateFixture(&boxShapeDef);  
-	//groundBox.Set(b2Vec2(size.width/PTM_RATIO,   
-	//	size.height/PTM_RATIO), b2Vec2(size.width/PTM_RATIO, 0));  
-	//groundBody->CreateFixture(&boxShapeDef); 
-
 
 }
 void Level2::initBody()
@@ -147,7 +120,7 @@ void Level2::createStaticBody(CCSprite*sprite,float x,float y,int n)
 		body->SetActive(true);
 
 		b2CircleShape circle; 
-		circle.m_radius = 50.0/PTM_RATIO; 
+		circle.m_radius = 100.0/PTM_RATIO; 
 
 		b2FixtureDef ballShapeDef;
 		ballShapeDef.shape = &circle; 
@@ -186,39 +159,25 @@ void Level2::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 		initBody();
 		i=1;
 	}
+	birdCenter = bird->getPosition();
 	CCTouch *touch=(CCTouch*)pTouches->anyObject();
 	CCPoint pt1=touch->getLocationInView();
 	pt1=CCDirector::sharedDirector()->convertToGL(pt1);
 	if(bird->boundingBox().containsPoint(pt1))
 	{
+		CCLog("can");
 		canFly = 1;
-		float distance = ccpDistance(pt1,birdCenter);
-		float height = bird->boundingBox().size.height;
-		if(distance<height)
-		{
-			bird->setPosition(pt1);
-			if(turn==1)
-			{
-				layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
-			}
-		}
-		else
-		{
-			float x = height/distance*(pt1.x-birdCenter.x)+birdCenter.x;
-			float y = height/distance*(pt1.y-birdCenter.y)+birdCenter.y;
-			bird->setPosition(ccp(x,y));
-			layer->createWithPoints(bird->getPosition(),this->s1l->getPosition(),this->s1r->getPosition());
-		}
+		//bird->setPosition(pt1);
 	}
-	else
-	{
-		canFly =0;
+	else{
+		CCLog("not");
+		canFly = 0;
 		return;
 	}
-	birdCenter = bird->getPosition();
 }
 void Level2::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 {
+	CCLog("moved");
 	if(canFly==0)return;
 	CCTouch *touch=(CCTouch*)pTouches->anyObject();
 	CCPoint pt1=touch->getLocationInView();
@@ -230,6 +189,7 @@ void Level2::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 		float height = bird->boundingBox().size.height;
 		if(distance<height)
 		{
+			CCLog("l2 moved");
 			bird->setPosition(pt1);
 			if(turn==1)
 			{
@@ -238,7 +198,7 @@ void Level2::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 		}
 		else
 		{
-			CCLog("else");
+			CCLog("leve2 moved");
 			float x = height/distance*(pt1.x-birdCenter.x)+birdCenter.x;
 			float y = height/distance*(pt1.y-birdCenter.y)+birdCenter.y;
 			bird->setPosition(ccp(x,y));
@@ -263,6 +223,7 @@ void Level2::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
 }
 void Level2::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
+	CCLog("end");
 	if(canFly==0)return;
 	CCTouch *touch=(CCTouch*)pTouches->anyObject();
 	CCPoint pt1=touch->getLocationInView();
@@ -387,32 +348,19 @@ extension::SEL_CCControlHandler Level2::onResolveCCBCCControlSelector(CCObject *
 }
 bool Level2::onAssignCCBMemberVariable(cocos2d::CCObject *pTarget, const char *pMemberVariableName, cocos2d::CCNode *pNode)
 {
-	CCLog("1");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"bird",CCSprite*,this->bird);
-	CCLog("2");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"home",CCSprite*,this->home);
-	CCLog("3");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"shooter1",CCSprite*,this->shooter1);
-	CCLog("4");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"obstacle1",CCSprite*,this->obstacle1);
-	CCLog("5");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"obstacle2",CCSprite*,this->obstacle2);
-	CCLog("6");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"obstacle3",CCSprite*,this->obstacle3);
-	CCLog("7");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"s1l",CCSprite*,this->s1l);
-	CCLog("8");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"s1r",CCSprite*,this->s1r);
-	CCLog("9");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"timeLabel",CCLabelTTF*,this->timeLabel);
-	CCLog("10");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star1",CCSprite*,this->star1);
-	CCLog("11");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star2",CCSprite*,this->star2);
-	CCLog("12");
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"star3",CCSprite*,this->star3);
 	CCB_MEMBERVARIABLEASSIGNER_GLUE(this,"EndLayer",CCLayer*,this->endLayer);
-	CCLog("13");
 	return true;
 }
 

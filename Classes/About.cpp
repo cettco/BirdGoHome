@@ -1,64 +1,59 @@
 #include "About.h"
 #include "GameMenu.h"
-#define PTM_RATIO 32.0
-void About::pressed(cocos2d::CCObject* pSender)
-{
-	CCMenuItemImage *menu = (CCMenuItemImage*)pSender;
-	CCLog("clicked");
-	switch (menu->getTag())
-	{
-	case 0:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionRotoZoom::create(1,GameMenu::scene()));
-	}
-}
+using namespace cocos2d;
+
 CCScene* About::scene()
 {
-	//场景转换
-	CCScene *scene = CCScene::create();
-	CCNodeLoaderLibrary *lib = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
-	lib->registerCCNodeLoader("About", AboutLayerLoader::loader());
-	CCBReader *reader = new CCBReader(lib);
-	CCNode* node = reader->readNodeGraphFromFile("About.ccbi", scene);
-	reader->release(); //注意手动释放内存
-	if (node!=NULL)
-	{
-		scene->addChild(node,-10,1); //将node 添加到scene中
-		CCBAnimationManager*animationManager = (CCBAnimationManager*)node->getUserObject();
-		//animationManager->runAnimationsForSequenceNamed("over");
-	}
-	return scene;
+    CCScene * scene = NULL;
+    do 
+    {
+        // 'scene' is an autorelease object
+        scene = CCScene::create();
+        CC_BREAK_IF(! scene);
+
+        // 'layer' is an autorelease object
+        About *layer = About::create();
+        CC_BREAK_IF(! layer);
+
+        // add layer as a child to scene
+        scene->addChild(layer);
+    } while (0);
+
+    // return the scene
+    return scene;
 }
+
+// on "init" you need to initialize your instance
 bool About::init()
 {
-	bool bRet = false;
-	do
-	{
-		CC_BREAK_IF(! CCLayer::init());
-		setTouchEnabled(true);
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("back.mp3",true);
-		CCSprite *sprite = CCSprite::create("back.png");
-		sprite->setPosition(ccp(500,600));
-		this->addChild(sprite,100);
-		bRet = true;
-	} while (0);
+    bool bRet = false;
+    do
+    {
+		CCSprite *background=CCSprite::create("AboutBG.png");
+		CCSize size = CCDirector::sharedDirector()->getWinSize();
+		background->setPosition(ccp(size.width/2,size.height/2));
+		this->addChild(background,-1);
+		CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
+            "back.png",
+            "back.png",
+            this,
+            menu_selector(About::menuCloseCallback));
+        CC_BREAK_IF(! pCloseItem);
+        pCloseItem->setPosition(ccp(CCDirector::sharedDirector()->getWinSize().width - 100, 600));
+        CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
+        pMenu->setPosition(CCPointZero);
+        CC_BREAK_IF(! pMenu);
+        this->addChild(pMenu, 1);
 
-	return bRet;
+        bRet = true;
+    } while (0);
+
+    return bRet;
 }
-SEL_MenuHandler About::onResolveCCBCCMenuItemSelector(CCObject * pTarget,const char * pSelectorName){
 
-	//Bind Menu Events，绑定一个menu，点击方法是press，以下同理
-	//CCB_SELECTORRESOLVER_CCMENUITEM_GLUE(this, "buttonPressed",About::pressed);
-
-	return NULL;
-
-}
-
-extension::SEL_CCControlHandler About::onResolveCCBCCControlSelector(CCObject * pTarget, const char * pSelectorName)
+void About::menuCloseCallback(CCObject* pSender)
 {
-	return NULL;
-}
-bool About::onAssignCCBMemberVariable(cocos2d::CCObject *pTarget, const char *pMemberVariableName, cocos2d::CCNode *pNode)
-{
-	return true;
+    // "close" menu item clicked
+    CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,GameMenu::scene()));
 }
 

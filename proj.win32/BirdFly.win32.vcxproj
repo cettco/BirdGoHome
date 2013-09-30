@@ -118,6 +118,7 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Image Include="..\Resources\AboutBG.png" />
     <Image Include="..\Resources\back.png" />
     <Image Include="..\Resources\bird.png" />
     <Image Include="..\Resources\CloseNormal.png" />
@@ -154,7 +155,6 @@
     <ClCompile Include="..\Classes\Level4.cpp" />
     <ClCompile Include="..\Classes\Level5.cpp" />
     <ClCompile Include="..\Classes\Levels.cpp" />
-    <ClCompile Include="..\Classes\MainLayer.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="LineLayer.cpp" />
     <ClCompile Include="main.cpp" />

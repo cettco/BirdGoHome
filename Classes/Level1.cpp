@@ -18,10 +18,10 @@ void Level1::pressed(cocos2d::CCObject* pSender)
 		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,Levels::scene()));
 		break;
 	case 1:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Level1::scene(),false));
+		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Levels::scene(),false));
 		break;
 	case 2:
-		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,Levels::scene()));
+		CCDirector::sharedDirector()->replaceScene(CCTransitionMoveInL::create(1,Level1::scene()));
 		break;
 	case 3:
 		CCDirector::sharedDirector()->replaceScene(CCTransitionPageTurn::create(1,Level2::scene(),false));

@@ -33,6 +33,9 @@
     <Image Include="..\Resources\back.png">
       <Filter>resource</Filter>
     </Image>
+    <Image Include="..\Resources\AboutBG.png">
+      <Filter>resource</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BirdFly.rc">
@@ -91,9 +94,6 @@
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\MainLayer.cpp">
       <Filter>source</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameMenu.cpp">
